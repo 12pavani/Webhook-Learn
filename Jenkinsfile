@@ -6,6 +6,7 @@ pipeline {
             steps {
                 echo 'Webhook triggered successfully!'
                 echo 'Hello from Jenkins'
+                echo 'Im pavani'
             }
         }
     }
