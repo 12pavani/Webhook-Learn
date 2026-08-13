@@ -7,7 +7,7 @@ pipeline {
                 echo 'Webhook triggered successfully!'
                 echo 'Hello from Jenkins'
                 echo 'Im pavani'
-                echo 'We are learning.'
+                echo '5+2=7'
             }
         }
     }
