@@ -8,6 +8,9 @@ pipeline {
                 echo 'Hello from Jenkins'
                 echo 'Im pavani'
                 echo 'World here is nice!'
+                echo "========== WEBHOOK PAYLOAD =========="
+                echo "${payload}"
+                echo "====================================="
             }
         }
     }
