@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+
         stage('Webhook Details') {
             steps {
                 echo 'Webhook triggered successfully!'
@@ -17,32 +18,37 @@ pipeline {
         stage('Check PR Conflict') {
             steps {
                 script {
+
                     def mergeable = null
 
                     retry(5) {
+
+                        def response
+
                         withCredentials([usernamePassword(
-    credentialsId: 'github-cred',
-    usernameVariable: 'USERNAME',
-    passwordVariable: 'TOKEN'
-)]) {
-                            def response = sh(
-        script: """
-            curl -s -L \
-              -H "Accept: application/vnd.github+json" \
-              -H "Authorization: Bearer $TOKEN" \
-              "https://api.github.com/repos/12pavani/Webhook-Learn/pulls/${pr_number}"
-        """,
-        returnStdout: true
-    ).trim()
+                            credentialsId: 'github-cred',
+                            usernameVariable: 'USERNAME',
+                            passwordVariable: 'TOKEN'
+                        )]) {
 
-                            echo response
-}
+                            response = sh(
+                                script: """
+                                    curl -s -L \
+                                      -H "Accept: application/vnd.github+json" \
+                                      -H "Authorization: Bearer \$TOKEN" \
+                                      "https://api.github.com/repos/12pavani/Webhook-Learn/pulls/${pr_number}"
+                                """,
+                                returnStdout: true
+                            ).trim()
+                        }
 
-                        mergeable = readJSON text: response
+                        def json = readJSON text: response
 
-                        echo "Current mergeable: ${mergeable.mergeable}"
+                        mergeable = json.mergeable
 
-                        if (mergeable.mergeable == null) {
+                        echo "Current mergeable: ${mergeable}"
+
+                        if (mergeable == null) {
                             echo 'GitHub is still calculating mergeability...'
                             sleep 5
                             error('Retry')
