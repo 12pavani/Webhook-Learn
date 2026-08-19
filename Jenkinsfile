@@ -26,12 +26,12 @@ pipeline {
     passwordVariable: 'TOKEN'
 )]) {
                             def response = sh(
-        script: '''
+        script: """
             curl -s -L \
               -H "Accept: application/vnd.github+json" \
               -H "Authorization: Bearer $TOKEN" \
-              "https://api.github.com/repos/12pavani/Webhook-Learn/pulls/16"
-        ''',
+              "https://api.github.com/repos/12pavani/Webhook-Learn/pulls/${pr_number}"
+        """,
         returnStdout: true
     ).trim()
 
