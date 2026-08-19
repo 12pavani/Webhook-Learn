@@ -2,11 +2,9 @@ pipeline {
     agent any
 
     stages {
-        stage('Webhook Test') {
+        stage('Webhook Details') {
             steps {
                 echo 'Webhook triggered successfully!'
-                echo 'Hello from Jenkins'
-                echo 'World here is nice!'
                 echo "========== WEBHOOK DETAILS =========="
                 echo "Payload is ${payload}"
                 echo "PR Number is ${pr_number}"
@@ -15,5 +13,29 @@ pipeline {
                 echo "====================================="
             }
         }
+
+        stage('Check PR Conflict') {
+            steps {
+                script {
+                    def mergeable = null
+
+                    retry(5) {
+                        // Ask GitHub for PR status
+
+                        if (mergeable == null) {
+                            echo "GitHub is still calculating mergeability..."
+                            sleep 5
+                            error("Retry")
+                        }
+                    }
+
+                    if (mergeable == true) {
+                        echo "No conflict"
+                    } else if (mergeable == false) {
+                        echo "Conflict detected"
+                    }
+                }
+            }
+}
     }
 }
