@@ -20,19 +20,23 @@ pipeline {
                     def mergeable = null
 
                     retry(5) {
-                        withCredentials([string(credentialsId: 'github-cred', variable: 'GITHUB_TOKEN')]) {
+                        withCredentials([usernamePassword(
+    credentialsId: 'github-cred',
+    usernameVariable: 'USERNAME',
+    passwordVariable: 'TOKEN'
+)]) {
                             def response = sh(
-        script: """
+        script: '''
             curl -s -L \
               -H "Accept: application/vnd.github+json" \
-              -H "Authorization: Bearer $GITHUB_TOKEN" \
-              "https://api.github.com/repos/12pavani/Webhook-Learn/pulls/${pr_number}"
-        """,
+              -H "Authorization: Bearer $TOKEN" \
+              "https://api.github.com/repos/12pavani/Webhook-Learn/pulls/16"
+        ''',
         returnStdout: true
     ).trim()
 
                             echo response
-                        }
+}
 
                         mergeable = readJSON text: response
 
