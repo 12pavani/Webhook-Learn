@@ -42,7 +42,7 @@ pipeline {
                             ).trim()
                         }
 
-                        def json = readJSON text: response
+                        def json = new groovy.json.JsonSlurperClassic().parseText(response)
 
                         mergeable = json.mergeable
 
