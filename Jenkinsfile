@@ -22,6 +22,8 @@ pipeline {
                     retry(5) {
                         // Ask GitHub for PR status
 
+                        echo "Mergeable: ${mergeable}"
+
                         if (mergeable == null) {
                             echo "GitHub is still calculating mergeability..."
                             sleep 5
