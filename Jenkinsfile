@@ -51,9 +51,9 @@ pipeline {
 
                         echo "Current mergeable: ${mergeable}"
 
-                    if (mergeable == 'true') {
+                    if (check_mergeable == 'true') {
                         echo 'No conflict'
-                    } else if (mergeable == 'false') {
+                    } else if (check_mergeable == 'false') {
                         echo 'Conflict detected...'
                     }
                 }
