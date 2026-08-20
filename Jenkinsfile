@@ -10,7 +10,7 @@ pipeline {
                 echo "PR Number is ${pr_number}"
                 echo "Repository is ${repository}"
                 echo "Action is ${action}"
-                echo "mergeability is ${mergeability}"
+                echo "mergeable is ${mergeable}"
                 echo '====================================='
             }
         }
@@ -18,7 +18,7 @@ pipeline {
         stage('Check PR Conflict') {
             steps {
                 script {
-                    def mergeable = null
+                    def check_mergeable = null
                     def response = null
 
                         withCredentials([usernamePassword(
@@ -36,7 +36,7 @@ pipeline {
                             ).trim()
                             echo "response is ${response}"
 
-                            mergeable = sh(
+                            check_mergeable = sh(
                                 script: """
                                     curl -s -L \
                                       -H "Accept: application/vnd.github+json" \
@@ -49,11 +49,11 @@ pipeline {
                             ).trim()
                         }
 
-                        echo "Current mergeable: ${mergeable}"
+                        echo "Current mergeable: ${check_mergeable}"
 
-                    if (mergeable == 'true') {
-                        echo 'No conflict..yay!'
-                    } else if (mergeable == 'false') {
+                    if (check_mergeable == 'true') {
+                        echo 'No conflict'
+                    } else if (check_mergeable == 'false') {
                         echo 'Conflict detected...'
                     }
                 }
