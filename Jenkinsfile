@@ -23,41 +23,37 @@ pipeline {
 
                     retry(5) {
 
-                        def response
-
                         withCredentials([usernamePassword(
                             credentialsId: 'github-cred',
                             usernameVariable: 'USERNAME',
                             passwordVariable: 'TOKEN'
                         )]) {
 
-                            response = sh(
+                            mergeable = sh(
                                 script: """
                                     curl -s -L \
                                       -H "Accept: application/vnd.github+json" \
                                       -H "Authorization: Bearer \$TOKEN" \
-                                      "https://api.github.com/repos/12pavani/Webhook-Learn/pulls/${pr_number}"
+                                      "https://api.github.com/repos/12pavani/Webhook-Learn/pulls/${pr_number}" \
+                                    | grep '"mergeable":' \
+                                    | sed 's/.*"mergeable": *\\([^,]*\\).*/\\1/'
                                 """,
                                 returnStdout: true
                             ).trim()
                         }
 
-                        def json = new groovy.json.JsonSlurperClassic().parseText(response)
-
-                        mergeable = json.mergeable
-
                         echo "Current mergeable: ${mergeable}"
 
-                        if (mergeable == null) {
+                        if (mergeable == 'null' || mergeable == '') {
                             echo 'GitHub is still calculating mergeability...'
                             sleep 5
                             error('Retry')
                         }
                     }
 
-                    if (mergeable == true) {
+                    if (mergeable == 'true') {
                         echo 'No conflict'
-                    } else if (mergeable == false) {
+                    } else if (mergeable == 'false') {
                         echo 'Conflict detected...!'
                     }
                 }
