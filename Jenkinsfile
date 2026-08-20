@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     stages {
-
         stage('Webhook Details') {
             steps {
                 echo 'Webhook triggered successfully!'
@@ -18,17 +17,13 @@ pipeline {
         stage('Check PR Conflict') {
             steps {
                 script {
-
                     def mergeable = null
-
-                    retry(5) {
 
                         withCredentials([usernamePassword(
                             credentialsId: 'github-cred',
                             usernameVariable: 'USERNAME',
                             passwordVariable: 'TOKEN'
                         )]) {
-
                             mergeable = sh(
                                 script: """
                                     curl -s -L \
@@ -43,13 +38,6 @@ pipeline {
                         }
 
                         echo "Current mergeable: ${mergeable}"
-
-                        if (mergeable == 'null' || mergeable == '') {
-                            echo 'GitHub is still calculating mergeability...'
-                            sleep 5
-                            error('Retry')
-                        }
-                    }
 
                     if (mergeable == 'true') {
                         echo 'No conflict'
