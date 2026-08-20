@@ -6,11 +6,10 @@ pipeline {
             steps {
                 echo 'Webhook triggered successfully!'
                 echo '========== WEBHOOK DETAILS =========='
-                // echo "Payload is ${payload}"
+                echo "Payload is ${payload}"
                 echo "PR Number is ${pr_number}"
                 echo "Repository is ${repository}"
                 echo "Action is ${action}"
-                echo "mergeable is ${mergeable}"
                 echo '====================================='
             }
         }
