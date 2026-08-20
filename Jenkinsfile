@@ -49,7 +49,7 @@ pipeline {
                             ).trim()
                         }
 
-                        echo "Current mergeable: ${mergeable}"
+                        echo "Current mergeable: ${check_mergeable}"
 
                     if (check_mergeable == 'true') {
                         echo 'No conflict'
