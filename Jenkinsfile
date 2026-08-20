@@ -52,7 +52,7 @@ pipeline {
                     }
 
                     if (mergeable == 'true') {
-                        echo 'No conflict'
+                        echo 'No conflict..yay!'
                     } else if (mergeable == 'false') {
                         echo 'Conflict detected...'
                     }
