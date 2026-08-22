@@ -17,25 +17,14 @@ pipeline {
         stage('Check PR Conflict') {
             steps {
                 script {
-                    def check_mergeable = null
-                    def response = null
+                    def mergeable = null
 
                         withCredentials([usernamePassword(
                             credentialsId: 'github-cred',
                             usernameVariable: 'USERNAME',
                             passwordVariable: 'TOKEN'
                         )]) {
-                            response = sh(
-                                script: """ 
-                                curl -s -L \
-                                      -H "Accept: application/vnd.github+json" \
-                                      -H "Authorization: Bearer \$TOKEN" \
-                                      "https://api.github.com/repos/12pavani/Webhook-Learn/pulls/${pr_number}"
-                                """
-                            ).trim()
-                            echo "response is ${response}"
-
-                            check_mergeable = sh(
+                            mergeable = sh(
                                 script: """
                                     curl -s -L \
                                       -H "Accept: application/vnd.github+json" \
@@ -48,13 +37,31 @@ pipeline {
                             ).trim()
                         }
 
-                        echo "Current mergeable: ${check_mergeable}"
+                        echo "Current mergeable: ${mergeable}"
 
-                    if (check_mergeable == 'true') {
+                    if (mergeable == 'true') {
                         echo 'No conflict'
-                    } else if (check_mergeable == 'false') {
+                    } else if (mergeable == 'false') {
                         echo 'Conflict detected...'
-                        echo 'lo ho gaya'
+
+                        withCredentials([usernamePassword(
+        credentialsId: 'github-cred',
+        usernameVariable: 'USERNAME',
+        passwordVariable: 'TOKEN'
+    )]) {
+                            def files = sh(
+            script: """
+                curl -s -L \
+                  -H "Accept: application/vnd.github+json" \
+                  -H "Authorization: Bearer \$TOKEN" \
+                  "https://api.github.com/repos/12pavani/Webhook-Learn/pulls/${pr_number}/files"
+            """,
+            returnStdout: true
+        ).trim()
+
+                            echo 'Files in PR:'
+                            echo files
+    }
                     }
                 }
             }
