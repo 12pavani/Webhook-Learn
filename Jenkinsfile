@@ -12,7 +12,7 @@ pipeline {
                 echo "Repository is ${repository}"
                 echo "Action is ${action}"
                 echo "Head branch is ${head_branch}"
-                echo "Base branch is ${base_branch}"
+                echo "hiii"
                 echo '====================================='
             }
         }
