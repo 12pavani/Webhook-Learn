@@ -10,9 +10,9 @@ pipeline {
                 // echo "Payload is ${payload}"
                 echo "PR Number is ${pr_number}"
                 echo "Repository is ${repository}"
-                echo "Action is ${action}"
                 echo "Head branch is ${head_branch}"
-                echo "hiii"
+                echo "Base branch is ${base_branch}"
+                echo "Action is ${action}"
                 echo '====================================='
             }
         }
@@ -81,7 +81,7 @@ pipeline {
                          * Keeping this code for future reference.
                          */
 
-                        // /*
+                        /*
                         withCredentials([usernamePassword(
                             credentialsId: 'github-cred',
                             usernameVariable: 'USERNAME',
@@ -101,18 +101,9 @@ pipeline {
                             echo 'Files in PR (Only Modified files):'
                             echo files
                         }
-                        // */
+                        */
 
-                    }
-                }
-            }
-        }
-
-        stage('Get Conflict Files') {
-            steps {
-                script {
-
-                    echo '========== GETTING CONFLICTED FILES =========='
+                        echo '========== GETTING CONFLICTED FILES =========='
 
                     sh """
                         echo "Head branch is ${head_branch}"
@@ -134,10 +125,12 @@ pipeline {
 
                         git diff --name-only --diff-filter=U
 
-                        echo "=====================pavani=================" 
+                        echo "======================================" 
                         """
+
                     }
                 }
             }
+        }
         }
     }
