@@ -81,7 +81,7 @@ pipeline {
                          * Keeping this code for future reference.
                          */
 
-                        // /*
+                        /*
                         withCredentials([usernamePassword(
                             credentialsId: 'github-cred',
                             usernameVariable: 'USERNAME',
@@ -101,18 +101,9 @@ pipeline {
                             echo 'Files in PR (Only Modified files):'
                             echo files
                         }
-                        // */
+                        */
 
-                    }
-                }
-            }
-        }
-
-        stage('Get Conflict Files') {
-            steps {
-                script {
-
-                    echo '========== GETTING CONFLICTED FILES =========='
+                        echo '========== GETTING CONFLICTED FILES =========='
 
                     sh """
                         echo "Head branch is ${head_branch}"
@@ -136,8 +127,10 @@ pipeline {
 
                         echo "======================================" 
                         """
+
                     }
                 }
             }
+        }
         }
     }
