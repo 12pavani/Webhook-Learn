@@ -13,7 +13,6 @@ pipeline {
                 echo "Head branch is ${head_branch}"
                 echo "Base branch is ${base_branch}"
                 echo "Action is ${action}"
-                echo "im feature"
                 echo '====================================='
             }
         }
@@ -110,15 +109,9 @@ pipeline {
                         echo "Head branch is ${head_branch}"
                         echo "Base branch is ${base_branch}"
 
-                        echo "========== FETCHING BASE BRANCH =========="
-
                         git fetch origin ${base_branch}
 
-                        echo "========== CHECKING OUT HEAD BRANCH =========="
-
                         git checkout -B conflict-check origin/${head_branch}
-
-                        echo "========== MERGING BASE BRANCH =========="
 
                         git merge origin/${base_branch} || true
 
