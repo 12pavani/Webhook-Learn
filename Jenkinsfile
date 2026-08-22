@@ -60,6 +60,7 @@ pipeline {
         ).trim()
 
                             echo 'Files in PR:'
+                            echo 'heyyyy'
                             echo files
     }
                     }
