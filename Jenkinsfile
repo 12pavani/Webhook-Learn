@@ -43,6 +43,25 @@ pipeline {
                         echo 'No conflict'
                     } else if (mergeable == 'false') {
                         echo 'Conflict detected...'
+
+                        withCredentials([usernamePassword(
+        credentialsId: 'github-cred',
+        usernameVariable: 'USERNAME',
+        passwordVariable: 'TOKEN'
+    )]) {
+                            def files = sh(
+            script: """
+                curl -s -L \
+                  -H "Accept: application/vnd.github+json" \
+                  -H "Authorization: Bearer \$TOKEN" \
+                  "https://api.github.com/repos/12pavani/Webhook-Learn/pulls/${pr_number}/files"
+            """,
+            returnStdout: true
+        ).trim()
+
+                            echo 'Files in PR:'
+                            echo files
+    }
                     }
                 }
             }
