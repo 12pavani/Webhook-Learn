@@ -10,9 +10,9 @@ pipeline {
                 // echo "Payload is ${payload}"
                 echo "PR Number is ${pr_number}"
                 echo "Repository is ${repository}"
-                echo "Action is ${action}"
                 echo "Head branch is ${head_branch}"
                 echo "Base branch is ${base_branch}"
+                echo "Action is ${action}"
                 echo '====================================='
             }
         }
