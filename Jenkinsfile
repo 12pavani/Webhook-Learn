@@ -13,6 +13,7 @@ pipeline {
                 echo "Head branch is ${head_branch}"
                 echo "Base branch is ${base_branch}"
                 echo "Action jacksion"
+                echo "im main"
                 echo '====================================='
             }
         }
