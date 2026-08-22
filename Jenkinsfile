@@ -72,7 +72,7 @@ pipeline {
 
                     } else if (mergeable == 'false') {
 
-                        echo 'Conflict detected...'
+                        echo 'Conflict Detected'
 
                         /*
                          * This API gives all files modified by the PR.
