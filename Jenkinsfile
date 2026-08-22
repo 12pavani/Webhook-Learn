@@ -12,8 +12,7 @@ pipeline {
                 echo "Repository is ${repository}"
                 echo "Head branch is ${head_branch}"
                 echo "Base branch is ${base_branch}"
-                echo "Action jacksion"
-                echo "im main"
+                echo "Action is ${action}"
                 echo '====================================='
             }
         }
@@ -73,7 +72,7 @@ pipeline {
 
                     } else if (mergeable == 'false') {
 
-                        echo 'Conflict detected...'
+                        echo 'Conflict Detected'
 
                         /*
                          * This API gives all files modified by the PR.
@@ -110,15 +109,9 @@ pipeline {
                         echo "Head branch is ${head_branch}"
                         echo "Base branch is ${base_branch}"
 
-                        echo "========== FETCHING BASE BRANCH =========="
-
                         git fetch origin ${base_branch}
 
-                        echo "========== CHECKING OUT HEAD BRANCH =========="
-
                         git checkout -B conflict-check origin/${head_branch}
-
-                        echo "========== MERGING BASE BRANCH =========="
 
                         git merge origin/${base_branch} || true
 
