@@ -54,6 +54,7 @@ pipeline {
                         echo 'No conflict'
                     } else if (check_mergeable == 'false') {
                         echo 'Conflict detected...'
+                        echo 'lo ho gaya'
                     }
                 }
             }
